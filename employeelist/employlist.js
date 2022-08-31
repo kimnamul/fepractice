@@ -27,11 +27,33 @@ for (let i = 0; i < 12; i++) {
 
         let cardtext = document.createElement("div");
         cardtext.setAttribute("class", "cardtext");
-        cardtext.innerHTML = data[i].email+"<br />"+data[i].city;
+        cardtext.innerHTML = data[i].email+"<br /><br />"+data[i].city;
         cardblock.appendChild(cardtext);
+
+        let cardusername = document.createElement("div");
+        cardusername.setAttribute("class", "cardusername");
+        cardusername.innerHTML = data[i].username;
+        cardblock.appendChild(cardusername);
+
     })
 }
 
+function filter() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let blocklist = document.getElementsByClassName("cardblock");
+
+    for (let i = 0; i < blocklist.length; i++) {
+        sname = blocklist[i].getElementsByClassName("cardname");
+        susername = blocklist[i].getElementsByClassName("cardusername");
+        if (sname[0].innerHTML.toLowerCase().indexOf(search) != -1 ||
+            susername[0].innerHTML.toLowerCase().indexOf(search) != -1) {
+            blocklist[i].style.display = "grid";
+        }
+        else {
+            blocklist[i].style.display = "none";
+        }
+    }
+}
 
 //get random users and their money
 
@@ -40,7 +62,7 @@ async function getRandomUser() {
   const data = await res.json();
   const user = data.results[0];
   const newUser = {
-    image: `${user.picture.medium}`,
+    image: `${user.picture.large}`,
     name: `${user.name.first} ${user.name.last}`,
     username: `${user.login.username}`,
     email: `${user.email}`,

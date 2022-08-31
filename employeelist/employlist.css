@@ -1,10 +1,53 @@
 html { font-size: 62.5%; }
 
+#search {
+    font-size: 1.5rem;
+    width: 200px;
+    height: 30px;
+    margin: 10px;
+}
+
 #upper1 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
 .cardblock {
-    
+    display: grid;
+    grid-template:
+    "image name" 2fr
+    "image text" 3fr
+    /1fr 2fr;
+
+    font-size: 1.5rem;
+
+    margin: 5px;
+    border: 3px solid gray;
+    border-radius: 9px;
+    padding: 10px;
+
+    transition: border-color 0.2s ease-in-out;
+}
+
+.cardblock:hover {
+    border-color: black;
+}
+
+.cardblock img {
+    border-radius: 50%;
+    grid-column: 1/2;
+    grid-row: 1/3;
+}
+
+.cardname {
+    font-size: 2rem;
+    grid-template-areas: "name";
+}
+
+.cardtext {
+    grid-template-areas: "text";
+}
+
+.cardusername {
+    display: none;
 }
