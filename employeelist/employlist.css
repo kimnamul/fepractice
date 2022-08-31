@@ -1,0 +1,10 @@
+html { font-size: 62.5%; }
+
+#upper1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.cardblock {
+    
+}
