@@ -1,10 +1,3 @@
-// $.ajax({
-//     url: 'https://randomuser.me/api/',
-//     dataType: 'json',
-//     success: function (data) {
-//         console.log(data);
-//     }
-// });
 
 let data = [];
 let cscount = 0;
@@ -15,6 +8,7 @@ for (let i = 0; i < 12; i++) {
         let cardblock = document.createElement("div");
         cardblock.setAttribute("class", "cardblock");
         cardhome.appendChild(cardblock);
+        cardblock.addEventListener('click', () => OpenInfo(i));
 
         let cardimage = document.createElement("img");
         cardimage.setAttribute("src", data[i].image);
@@ -38,7 +32,76 @@ for (let i = 0; i < 12; i++) {
     })
 }
 
-function filter() {
+function OpenInfo(i) {
+    console.log(i);
+    let infohome = document.getElementById("upper0");
+
+    let infoback = document.createElement("div");
+    infoback.setAttribute("class", "infoback");
+    infohome.appendChild(infoback);
+    infoback.addEventListener('click', () => {
+        ExitInfo()
+    });
+
+    let infoblock = document.createElement("div");
+    infoblock.setAttribute("class", "infoblock");
+    infoback.appendChild(infoblock);
+    infoblock.addEventListener('click', (event) => {
+        event.stopPropagation()
+    });
+
+    let infoimage = document.createElement("img");
+    infoimage.setAttribute("src", data[i].image);
+    infoblock.appendChild(infoimage);
+    infoimage.addEventListener('click', () => {
+    });
+
+    let infoname = document.createElement("div");
+    infoname.setAttribute("class", "infoname");
+    infoname.innerHTML = "<br />"+data[i].name;
+    infoblock.appendChild(infoname);
+
+    let infotext = document.createElement("div");
+    infotext.setAttribute("class", "infotext");
+    infotext.innerHTML = "<br /><br />"+data[i].email+"<br /><br />"+data[i].city+"<br /><br /><hr><br />"+data[i].cell+"<br /><br />"+data[i].city+","+data[i].state+","+data[i].postcode+"<br /><br />Birthday: "+data[i].birth;
+    infoblock.appendChild(infotext);
+
+    let infoexit = document.createElement("div");
+    infoexit.setAttribute("class", "infoexit");
+    infoblock.appendChild(infoexit);
+    infoexit.addEventListener('click', () => ExitInfo());
+
+    let infoprev = document.createElement("div");
+    infoprev.setAttribute("class", "infoprev");
+    infoblock.appendChild(infoprev);
+    infoprev.addEventListener('click', () => PrevInfo(i));
+
+    let infonext = document.createElement("div");
+    infonext.setAttribute("class", "infonext");
+    infoblock.appendChild(infonext);
+    infonext.addEventListener('click', () => NextInfo(i));
+}
+
+function ExitInfo () {
+    const info = document.getElementsByClassName("infoback");
+    info[0].remove();
+}
+
+function PrevInfo(i) {
+    if (i > 0) {
+        ExitInfo();
+        OpenInfo(i - 1);
+    }
+}
+
+function NextInfo(i) {
+    if (i < 11) {
+        ExitInfo();
+        OpenInfo(i + 1);
+    }
+}
+
+function Filter() {
     let search = document.getElementById("search").value.toLowerCase();
     let blocklist = document.getElementsByClassName("cardblock");
 

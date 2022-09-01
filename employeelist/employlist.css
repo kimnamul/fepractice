@@ -1,4 +1,7 @@
-html { font-size: 62.5%; }
+html {
+    font-family: 'Raleway', serif;
+    font-size: 62.5%;
+}
 
 #search {
     font-size: 1.5rem;
@@ -12,17 +15,26 @@ html { font-size: 62.5%; }
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+@media (max-width: 1200px) {
+    #upper1 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+  
+  
+
 .cardblock {
     display: grid;
     grid-template:
-    "image name" 2fr
-    "image text" 3fr
-    /1fr 2fr;
+    "image blank name" 2fr
+    "image blank text" 3fr
+    /3fr 1fr 5fr;
 
     font-size: 1.5rem;
 
     margin: 5px;
-    border: 3px solid gray;
+    border: 3px solid rgb(175, 175, 175);
     border-radius: 9px;
     padding: 10px;
 
@@ -41,13 +53,85 @@ html { font-size: 62.5%; }
 
 .cardname {
     font-size: 2rem;
-    grid-template-areas: "name";
+    grid-column: 3/4;
+    grid-row: 1/2
 }
 
 .cardtext {
-    grid-template-areas: "text";
+    grid-column: 3/4;
+    grid-row: 2/3;
 }
 
 .cardusername {
     display: none;
+}
+
+.infoback {
+    background: rgba(0, 0, 0, .3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.infoblock {
+    position: relative;
+    vertical-align: top;
+    text-align: center;
+
+    width: 300px;
+    height: 450px;
+
+    background: white;
+    margin: 5px;
+    border: 3px solid rgb(175, 175, 175);
+    border-radius: 9px;
+    padding: 10px;
+
+    font-size: 1.5rem;
+}
+
+.infoblock img {
+    border-radius: 50%;
+}
+
+.infoname {
+    font-size: 2rem;
+}
+
+.infoexit {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    padding: red;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.infoprev {
+    position: absolute;
+    bottom: 10px;
+    left: 120px;
+    background: green;
+    padding: green;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+.infonext {
+    position: absolute;
+    bottom: 10px;
+    right: 120px;
+    background: blue;
+    padding: blue;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
 }
