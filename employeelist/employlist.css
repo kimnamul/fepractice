@@ -17,12 +17,15 @@ html {
 
 @media (max-width: 1200px) {
     #upper1 {
-        display: grid;
         grid-template-columns: 1fr 1fr;
     }
 }
-  
-  
+
+@media (max-width: 600px) {
+    #upper1 {
+        grid-template-columns: 1fr;
+    }
+}
 
 .cardblock {
     display: grid;

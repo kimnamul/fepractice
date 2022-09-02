@@ -1,8 +1,18 @@
 
-let data = [];
+// TO IMPROVE
+// 1. fetch all 12 employees
+// 2 render them in html file
+
+// TODO:
+// check more about promises / async code
+// after completing React project: check difference between imperative and declarative principles
+
+const data = [];
 let cscount = 0;
-for (let i = 0; i < 12; i++) {
-    getRandomUser().then(() => {
+getRandomUser().then(() => {
+    for (let i = 0; i < 12; i++) {
+        // const res = await getUser()
+
         let cardhome = document.getElementById("upper1");
 
         let cardblock = document.createElement("div");
@@ -21,7 +31,7 @@ for (let i = 0; i < 12; i++) {
 
         let cardtext = document.createElement("div");
         cardtext.setAttribute("class", "cardtext");
-        cardtext.innerHTML = data[i].email+"<br /><br />"+data[i].city;
+        cardtext.innerHTML = data[i].email + "<br /><br />" + data[i].city;
         cardblock.appendChild(cardtext);
 
         let cardusername = document.createElement("div");
@@ -29,8 +39,12 @@ for (let i = 0; i < 12; i++) {
         cardusername.innerHTML = data[i].username;
         cardblock.appendChild(cardusername);
 
-    })
+    }
 }
+).catch((err) => console.error(err));
+
+// function naming -> lower case openInfo()
+// class naming -> upper case
 
 function OpenInfo(i) {
     console.log(i);
@@ -106,8 +120,8 @@ function Filter() {
     let blocklist = document.getElementsByClassName("cardblock");
 
     for (let i = 0; i < blocklist.length; i++) {
-        sname = blocklist[i].getElementsByClassName("cardname");
-        susername = blocklist[i].getElementsByClassName("cardusername");
+        const sname = blocklist[i].getElementsByClassName("cardname");
+        const susername = blocklist[i].getElementsByClassName("cardusername");
         if (sname[0].innerHTML.toLowerCase().indexOf(search) != -1 ||
             susername[0].innerHTML.toLowerCase().indexOf(search) != -1) {
             blocklist[i].style.display = "grid";
@@ -121,23 +135,31 @@ function Filter() {
 //get random users and their money
 
 async function getRandomUser() {
-  const res = await fetch("https://randomuser.me/api");
-  const data = await res.json();
-  const user = data.results[0];
-  const newUser = {
-    image: `${user.picture.large}`,
-    name: `${user.name.first} ${user.name.last}`,
-    username: `${user.login.username}`,
-    email: `${user.email}`,
-    city: `${user.location.city}`,
-    state: `${user.location.state}`,
-    postcode: `${user.location.postcode}`,
-    cell: `${user.cell}`,
-    birth: `${user.dob.date[2]}${user.dob.date[3]}/${user.dob.date[5]}${user.dob.date[6]}/${user.dob.date[8]}${user.dob.date[9]}`
-  };
-  //   console.log(newUser);
+    try {
+        const res = await fetch("https://randomuser.me/api/?results=12");
+        const data = await res.json();
+        console.log(data);
+        for (let i = 0; i < 12; i++) {
+            const user = data.results[i];
+            const newUser = {
+                image: `${user.picture.large}`,
+                name: `${user.name.first} ${user.name.last}`,
+                username: `${user.login.username}`,
+                email: `${user.email}`,
+                city: `${user.location.city}`,
+                state: `${user.location.state}`,
+                postcode: `${user.location.postcode}`,
+                cell: `${user.cell}`,
+                birth: `${user.dob.date[2]}${user.dob.date[3]}/${user.dob.date[5]}${user.dob.date[6]}/${user.dob.date[8]}${user.dob.date[9]}`
+            };
+            //   console.log(newUser);
 
-  addData(newUser);
+            addData(newUser);
+        }
+    } catch (error) {
+        // handle error case      
+        // console.error(error)
+    }
 }
 
 // add User to data array
