@@ -9,6 +9,7 @@
 
 const data = [];
 let cscount = 0;
+let firstopen = true;
 getRandomUser().then(() => {
     for (let i = 0; i < 12; i++) {
         // const res = await getUser()
@@ -18,7 +19,7 @@ getRandomUser().then(() => {
         let cardblock = document.createElement("div");
         cardblock.setAttribute("class", "cardblock");
         cardhome.appendChild(cardblock);
-        cardblock.addEventListener('click', () => OpenInfo(i));
+        cardblock.addEventListener('click', () => openInfo(i, 0));
 
         let cardimage = document.createElement("img");
         cardimage.setAttribute("src", data[i].image);
@@ -38,7 +39,6 @@ getRandomUser().then(() => {
         cardusername.setAttribute("class", "cardusername");
         cardusername.innerHTML = data[i].username;
         cardblock.appendChild(cardusername);
-
     }
 }
 ).catch((err) => console.error(err));
@@ -46,73 +46,53 @@ getRandomUser().then(() => {
 // function naming -> lower case openInfo()
 // class naming -> upper case
 
-function OpenInfo(i) {
+function openInfo(i, openindex) {
     console.log(i);
-    let infohome = document.getElementById("upper0");
+    if(i < 0 || i > 11){
+        return;
+    }
 
-    let infoback = document.createElement("div");
-    infoback.setAttribute("class", "infoback");
-    infohome.appendChild(infoback);
-    infoback.addEventListener('click', () => {
-        ExitInfo()
-    });
+    if (openindex === 0) {
+        const info = document.getElementsByClassName("infoback");
+        info[0].style.display = "flex";
 
-    let infoblock = document.createElement("div");
-    infoblock.setAttribute("class", "infoblock");
-    infoback.appendChild(infoblock);
-    infoblock.addEventListener('click', (event) => {
-        event.stopPropagation()
-    });
+        if (firstopen == true) {
 
-    let infoimage = document.createElement("img");
-    infoimage.setAttribute("src", data[i].image);
-    infoblock.appendChild(infoimage);
-    infoimage.addEventListener('click', () => {
-    });
+            let infoback = document.getElementsByClassName("infoback");
+            infoback[0].addEventListener('click', () => ExitInfo());
 
-    let infoname = document.createElement("div");
-    infoname.setAttribute("class", "infoname");
-    infoname.innerHTML = "<br />"+data[i].name;
-    infoblock.appendChild(infoname);
+            let infoblock = document.getElementsByClassName("infoblock");
+            infoblock[0].addEventListener('click', (event) => {
+                event.stopPropagation()
+            });
 
-    let infotext = document.createElement("div");
-    infotext.setAttribute("class", "infotext");
-    infotext.innerHTML = "<br /><br />"+data[i].email+"<br /><br />"+data[i].city+"<br /><br /><hr><br />"+data[i].cell+"<br /><br />"+data[i].city+","+data[i].state+","+data[i].postcode+"<br /><br />Birthday: "+data[i].birth;
-    infoblock.appendChild(infotext);
+            let infoexit = document.getElementsByClassName("infoexit");
+            infoexit[0].addEventListener('click', () => ExitInfo());
 
-    let infoexit = document.createElement("div");
-    infoexit.setAttribute("class", "infoexit");
-    infoblock.appendChild(infoexit);
-    infoexit.addEventListener('click', () => ExitInfo());
+            firstopen = false;
+        }
+    }
+    let infoimage = document.getElementsByClassName("infoimage");
+    infoimage[0].setAttribute("src", data[i].image);
 
-    let infoprev = document.createElement("div");
-    infoprev.setAttribute("class", "infoprev");
-    infoblock.appendChild(infoprev);
-    infoprev.addEventListener('click', () => PrevInfo(i));
+    let infoname = document.getElementsByClassName("infoname");
+    infoname[0].innerHTML = "<br />"+data[i].name;
 
-    let infonext = document.createElement("div");
-    infonext.setAttribute("class", "infonext");
-    infoblock.appendChild(infonext);
-    infonext.addEventListener('click', () => NextInfo(i));
+    let infotext = document.getElementsByClassName("infotext");
+    infotext[0].innerHTML = "<br /><br />"+data[i].email+"<br /><br />"+data[i].city+"<br /><br /><hr><br />"+data[i].cell+"<br /><br />"+data[i].city+","+data[i].state+","+data[i].postcode+"<br /><br />Birthday: "+data[i].birth;
+    
+    let infoprev = document.getElementsByClassName("infoprev");
+    infoprev[0].replaceWith(infoprev[0].cloneNode(true));
+    infoprev[0].addEventListener('click', () => openInfo(i - 1, -1)); //if i > 0
+
+    let infonext = document.getElementsByClassName("infonext");
+    infonext[0].replaceWith(infonext[0].cloneNode(true));
+    infonext[0].addEventListener('click', () => openInfo(i + 1, 1)); //if i < 11
 }
 
 function ExitInfo () {
     const info = document.getElementsByClassName("infoback");
-    info[0].remove();
-}
-
-function PrevInfo(i) {
-    if (i > 0) {
-        ExitInfo();
-        OpenInfo(i - 1);
-    }
-}
-
-function NextInfo(i) {
-    if (i < 11) {
-        ExitInfo();
-        OpenInfo(i + 1);
-    }
+    info[0].style.display = "none";
 }
 
 function Filter() {
@@ -132,13 +112,16 @@ function Filter() {
     }
 }
 
-//get random users and their money
+async function getUserAPI() {
+    const res = await fetch("https://randomuser.me/api/?results=12");
+    const data = await res.json();
+    console.log(data);
+    return data;
+}
 
 async function getRandomUser() {
     try {
-        const res = await fetch("https://randomuser.me/api/?results=12");
-        const data = await res.json();
-        console.log(data);
+        const data = await getUserAPI();
         for (let i = 0; i < 12; i++) {
             const user = data.results[i];
             const newUser = {
@@ -153,7 +136,6 @@ async function getRandomUser() {
                 birth: `${user.dob.date[2]}${user.dob.date[3]}/${user.dob.date[5]}${user.dob.date[6]}/${user.dob.date[8]}${user.dob.date[9]}`
             };
             //   console.log(newUser);
-
             addData(newUser);
         }
     } catch (error) {

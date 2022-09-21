@@ -7,12 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="./employlist.css">
+    <script src="./employlist.js" async></script>
 </head>
-
+<!-- <ul>
+    <li></li>
+</ul> -->
 <body>
     <div id="upper0">
+        <div class="infoback">
+            <div class="infoblock">
+                <img class="infoimage" alt="missing profile image">
+                <div class="infoname"></div>
+                <div class="infotext"></div>
+                <div class="infoexit"></div>
+                <div class="infoprev"></div>
+                <div class="infonext"></div>
+            </div>
+        </div>
         <h1>List: Employee</h1>
         <div class="searchbox">
+            
             <label><input type="text" id="search" onkeyup="Filter()" placeholder="Enter name or username" /></label>
         </div>
         <div id="upper1">
@@ -30,7 +44,6 @@
     <!-- create popup here and hide it -->
     <!-- show popup on click and populate it with data -->
 
-    <script src="./employlist.js"></script>
 </body>
 
 </html>
